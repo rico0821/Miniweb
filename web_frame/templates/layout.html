@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <title>title - {% block title %}{% endblock %}</title>
+    <meta name="description" content="" />
+    
+    <meta name="viewport"content="width=device-width", initial-scale=1.0 />
+    
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}" />
+  <!--<link rel="apple-touch-icon" href="/apple-touch-icon.png" />-->
+    
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/font-awesome.min.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/placeholder-error.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/bootbox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/binaryajax.js') }}"></script>
+    
+    {% block head %}{% endblock %}
+  </head>
+  <body width="100%">
+    
+    <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="fa fa-bar"></span>
+                        <span class="fa fa-bar"></span>
+                        <span class="fa fa-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('web_frame.index') }}">&nbsp;<i class="fa fa-circle-o-notch "></i> Web</a>
+                </div>
+                {% if session['user_info'] %}
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#"><i class="fa fa-square"></i> menu1 </a></li>
+                        <li><a href="#"><i class="fa fa-square"></i> menu2 </a></li>
+                        <li><a href="#"><i class="fa fa-square"> menu3 </i></a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right ">
+                        <li class="dropdown">
+                            <a href='#' class="navbar-link dropdown-toggle" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{ session.user_info.username}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                <li><a href="{{ url_for('web_frame.update_user_form', username=session.user_info.username) }}"><i class="fa fa-pencil"></i> Update user information</a></li>
+                                <li><a id="logout" href="#"><i class="fa fa-user"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+                <!-- /.nav-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- content-->
+        <div id="web_frame-content" class="col-md-12" style="padding-top: 0px; padding-bottom: 30px;">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- end of content-->
+        <!-- footer begin 
+        <div id="footer" class="col-md-12">
+            <div class="navbar navbar-inverse navbar-fixed-bottom">
+                <div class="navbar-header"></div>
+                <div class="container">
+                    <div id="footer-menu" class="navbar-collapse collapse">
+                        <p id="since" class="navbar-text">&copy; Since 2018</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        -->
+        <script type="text/javascript">
+            $('#logout').click(function(e){
+
+            	bootbox.confirm("Are you sure you want to logout?", function(result) {
+            		if(result){
+            			window.location="{{ url_for('web_frame.logout') }}"
+            		}
+            	});
+
+            });
+        </script>
+  </body>
+</html>

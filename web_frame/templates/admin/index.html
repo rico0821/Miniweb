@@ -1,0 +1,8 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+<link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}" />
+{% endblock %}
+{% block title %}Admin{% endblock %}
+{% block menu_links %}
+<a style="float:right; margin: 15px;" href="{{ url_for('web_frame.logout') }}">Logout</a>
+{% endblock %}

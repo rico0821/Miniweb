@@ -1,0 +1,151 @@
+{% extends "layout.html" %}
+{% block title %}Regist{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+<!-- User register form -->
+{% block content %}
+    <script type=text/javascript>
+         $(function() {
+            var submit_form = function(e) {
+                if ($('input[name=username]').val() != '') {
+                    $.ajax({
+                        url      : '/user/check_name'
+                        ,type    : 'POST'
+                        ,cache   : false
+                        ,data    : JSON.stringify({
+                        username : $('input[name=username]').val()
+                    })
+                        ,contentType : 'application/json; charset=utf-8'
+                        ,dataType    : 'json'
+                        ,success     : function(data) {
+                        username = $('input[name=username]').val();
+                        if (data.result) {
+                            $('#regist').modal('hide');
+
+                             bootbox.alert(username + ' is available.', function() {
+                                 $('#regist').modal('show');
+                                 $('input[name=username_check]').val('Y');
+                                 $('input[name=email]').focus().select();
+                             });
+                        } else {
+                            $('#regist').modal('hide');
+
+                            bootbox.alert(username + ' is already in use.', function() {
+                                $('#regist').modal('show');
+                                $('input[name=username]').val('');
+                                $('input[name=username]').focus().select();
+                            });
+                       }
+                    }
+                    ,error: function(result) {
+                        $('#regist').modal('hide');
+
+                        bootbox.alert('Error! Please try again later.', function() {
+                            $('#regist').modal('show');
+                        });
+                    }
+                });
+
+                } else {
+                    $('#regist').modal('hide');
+
+                bootbox.alert('Enter username.', function() {
+                    $('#regist').modal('show');
+                    $('input[name=username]').focus();
+                });
+            }
+                return false;
+            };
+            $('button#username_check').bind('click', submit_form);
+            $('input[name=username]').focus();
+        });
+    </script>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form class="form-horizontal" action='#' method="POST">
+        <div id="regist" class="modal fade" role="dialog"  data-keyboard="false" data-backdrop="static" style="overflow:auto;">
+            <div class="modal-dialog" style="vertical-align: middle;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" onclick="javascript:location.replace('{{ url_for('web_frame.main') }}');"><i class="fa fa-remove"></i> &nbsp;</button>
+                        <h3 id="myModalLabel">&nbsp;<i class="fa fa-user"></i>&nbsp;{% if user %}Update user information{% else %}Sign up{% endif %}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <fieldset>
+                            <div class="form-group">
+                                <!-- Username -->
+                                <label class="col-md-3 control-label"  for="username">ID</label>
+                                <div class="col-md-9">
+                                    {% if user %}
+                                    {{ render_field(form.username, class="form-control input-md col-md-10", placeholder="No blank spaces.", readOnly="True")  }}
+                                    {% else %}
+                                    <div class="input-group col-md-12">
+                                        <div class="input-group">
+                                            {{ render_field(form.username, class="form-control input-md col-md-10", placeholder="No blank spaces.", autofocus=true) }}
+                                            <span class="input-group-btn">
+                                            <button id="username_check" class="btn btn-primary">Confirm</button>
+                                            </span>
+                                        </div>
+                                        {{ render_field(form.username_check) }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- E-mail -->
+                                <label class="col-md-3 control-label" for="email">E-mail</label>
+                                <div class="col-md-9">
+                                    {{ render_field(form.email, class="form-control input-md col-md-10", placeholder="Enter valid e-mail address.") }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Password-->
+                                <label class="col-md-3 control-label" for="password">Password</label>
+                                <div class="col-md-9">
+                                    {{ render_field(form.password, class="form-control input-md col-md-10", placeholder="Must be at least 4 characters long.") }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- Password -->
+                                <label class="col-sm-3 control-label" for="password_confirm">Password(Confirm)</label>
+                                <div class="col-md-9">
+                                    {{ render_field(form.password_confirm, class="form-control input-md col-md-10", placeholder="Re-enter password.") }}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <!-- modal-body -->
+                    <div class="modal-footer">
+                        <button class="btn btn-success">{% if user %}Update user information{% else %}Sign up{% endif %}</button>
+                        {% if user %}<a href="javascript:unregist();" class="btn btn-primary">Delete account</a>{% endif %}
+                    </div>
+                    <!-- modal-footer -->
+                </div>
+                <!-- modal content -->
+            </div>
+            <!-- modal dialogue -->
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $('#regist').modal('show');
+
+             function unregist(){
+
+                 $('#regist').modal('hide');
+
+                 bootbox.confirm("Are you sure you want to delete your account?", function(result) {
+                     if(result){
+                         $(location).attr('href',"{{ url_for('web_frame.unregist') }}");
+
+                     }else{
+                         $('#regist').modal('show');
+                     }
+
+                 });
+
+             }
+    </script>
+
+{% endblock %}

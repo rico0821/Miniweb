@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>404 Error</title>
+    
+    <meta name="description" content="" />
+    <meta name="author" content="갸채" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/font-awesome.min.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/place-holder-error.css') }}" type="text/css" media="screen" title="web_frame" charset="UTF-8" />
+    
+    <script src="https://ajax.googleapis.com/ajax/llibs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bootbox.min.js') }}"></script>
+  </head>
+  <body>
+    <div class="center jumbotron">
+      <h1>Page Not Found <small><font face="Tahoma" color="red">Error 404</font></small></h1>
+      <br/>
+      <p>The page you requested could not be found</p>
+      <a href="/" class="btn btn-lg btn-info"><i class="fa fa-home fa-white"></i> Take Me Home</a>
+    </div>
+  </body>
+</html>

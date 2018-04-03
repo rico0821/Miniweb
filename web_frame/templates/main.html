@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block title %}Main{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% if email_sent %}
+    <div id="email_sent" class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        Verification email sent.
+    </div>
+    {% endif %}
+    {% if email_error %}
+    <div class="alert alert-danger">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        Email error occured. 
+    </div>    
+    {% endif %}
+    {% if user_activated %}
+    <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        Your account has been activated!
+    </div>
+    {% endif %}
+    {% if not email_verified %}
+    <div class="alert alert-danger">
+        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        You have not verified your e-mail. <a id="send_email" href="{{ url_for('web_frame.send_token_email') }}">Send e-mail verification</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
